@@ -13,8 +13,8 @@ ImageData* createImage(int width,int height,int depth){
   if(depth != 8 && depth != 24)
     return NULL; /*1画素あたりのビット数(8,24以外はエラー)*/
 
-  newing = malloc(sizeof(ImageData));
-  if(newint == NULL)
+  newimg = malloc(sizeof(ImageData));
+  if(newimg == NULL)
     return NULL;
 
   /*1画素格納するのに必要なバイト数を求める*/
@@ -22,16 +22,16 @@ ImageData* createImage(int width,int height,int depth){
 
   /*画像データを格納するのに必要なメモリを確保*/
   newimg->pixels = malloc(sizeof(BYTE) * byte_per_pixel * width * height);
-  if(newing->pixels == NULL){
-    free(newing);
+  if(newimg->pixels == NULL){
+    free(newimg);
     return NULL;
   }
 
   /*各プロパティ値を設定*/
-  newing->width = width;
-  newing->height = height;
-  newing->depth = depth;
-  return newing;
+  newimg->width = width;
+  newimg->height = height;
+  newimg->depth = depth;
+  return newimg;
 }
 
 /*画像データの廃棄*/
@@ -129,7 +129,7 @@ int setPixel(ImageData *img,int x,int y,Pixel *pix){
     return 0;
   }
   dep = img->depth;
-  ard = x + y * img->width;
+  adr = x + y * img->width;
   pixels = img->pixels;
   if(dep == 8){
     pixels[adr] = correctValue(pix->r,PIXELMAX);
