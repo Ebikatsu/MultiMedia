@@ -3,7 +3,7 @@
 
 #define TRUE 1
 #define FALSE 0
-typedef ussigned char BYTE;
+typedef unsigned char BYTE;
 typedef struct STRUCT_IMAGE{
   int width,height;
   int depth;
