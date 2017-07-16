@@ -1,0 +1,99 @@
+\documentclass{jsarticle}
+
+\usepackage{listings, jlisting}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{here}
+\usepackage{fancybox}
+\usepackage{multicol}
+
+\title{マルチメディア演習　グループAレポート}
+\author{s153025 大庭 武志 \and s153109 渡邉 直樹}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection{プログラムの実行方法}
+
+コンパイル：gcc -o 2017multiA 2017multiA.c bmp.c image.c image.h -lm
+
+実行例:
+
+\$ ./2017multiA 
+
+線形変換した画像が回転する角度を入力してください(°)$>>$30
+
+\subsection{プログラムの構造説明}
+
+\fbox{関数main()}
+
+\begin{table}[H]
+    \begin{tabular}{ll}
+        l.13〜l.18  & 画像ファイルのファイル名とパス指定\\
+        l.28        & 元画像の読み込み\\
+        l.32        & 回転した画像の大きさを指定\\
+        l.35〜l.40  & 空の画像を作成\\
+        l.43        & 関数make\_mix\_histgram()呼び出し\\
+        l.46〜l.47  & 画像の出力\\
+        l.50        & 関数make\_mix\_histgram()呼び出し\\
+        l.51        & 関数make\_mono\_histgram()呼び出し\\
+        l.53〜l.54  & ヒストグラム画像の出力\\
+        l.57〜l.58  & 画像の回転させる角度を決定\\
+        l.60        & 関数turn()呼び出し\\
+        l.61        & 回転した画像の出力\\
+        l.64〜l.69  & 画像領域の解放\\
+    \end{tabular}
+\end{table}
+
+\fbox{関数turn()}：画像を任意の角度回転させる
+
+\begin{table}[H]
+    \begin{tabular}{ll}
+        l.74        & 元の画像の中心\\
+        l.75        & 回転後画像の中心\\
+        l.76        & 回転する角度を弧度法で設定\\
+        l.82〜l.93  & 回転後の画像に回転前の画像の対応する座標の画素値を入力\\
+    \end{tabular}
+\end{table}
+
+\fbox{関数make\_mono\_histgram()}：各色のヒストグラム画像を作成
+
+\begin{table}[H]
+    \begin{tabular}{ll}
+        l.103〜l.110 & ヒストグラムの作成\\
+        l.116〜l.122 & 各色のヒストグラムの最大値を設定\\
+        l.124〜l.158 & ヒストグラム画像の生成\\
+        l.126〜l.131 & ヒストグラムの高さを設定\\
+        l.133〜l.156 & 直前で指定された高さまで各色の画素値を設定する\\
+                     & それ以外の座標は黒\\
+    \end{tabular}
+\end{table}
+
+\fbox{関数make\_mix\_histgram()}：全色のヒストグラム画像を作成
+
+\begin{table}[H]
+    \begin{tabular}{ll}
+        l.167〜l.174 & ヒストグラムの作成\\
+        l.180〜l.186 & ヒストグラムの最大値を設定\\
+        l.188〜l.217 & ヒストグラム画像の生成\\
+        l.189〜l.195 & ヒストグラムの高さを設定\\
+        l.197〜l.216 & 直前で指定された高さまで画素値を設定する\\
+                     & それ以外の座標は黒\\
+    \end{tabular}
+\end{table}
+
+\fbox{関数linear()}：線形変換
+
+\begin{table}[H]
+    \begin{tabular}{ll}
+        l.228〜l.250 & 最大・最小階調を調べる\\
+        l.252〜l.260 & 線形変換した画素値を入力\\
+    \end{tabular}
+\end{table}
+
+\subsection{グループとしてのプログラムの工夫点}
+
+画像を回転させる関数turn()を加えた。回転する際、回転前の画像から回転後の画像を計算すると小数第何位以下は切り捨てなどで誤差が生じてしまい、不完全な画像が出力されるので、回転後の座標から逆算して回転前の座標を参照し、回転後の画素値を決定した。
+
+\end{document}
